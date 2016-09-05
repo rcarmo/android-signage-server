@@ -28,13 +28,12 @@ clean:
 serve:
 	python manage.py runserver $(BIND_ADDRESS):$(PORT)
 
-migrations-%:
+migrate-%:
 	python manage.py makemigrations $*
 	
 migrate:
 	python manage.py migrate
 	
-
 superuser:
 	python manage.py createsuperuser
 
