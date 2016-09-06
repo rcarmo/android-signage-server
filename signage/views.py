@@ -8,12 +8,12 @@ from .models import Playlist, Device
 
 class PlaylistView(generic.TemplateView):
     template_name = 'playlist.json'
-    try:
-        default_playlist = Playlist.objects.get(name='Default')
-    except:
-        default_playlist = Playlist.objects.get(pk=1)
 
     def assets(self):
+        try:
+            default_playlist = Playlist.objects.get(name='Default')
+        except:
+            default_playlist = Playlist.objects.get(pk=1)
         return self.default_playlist.asset_set.all()
 
 class DetailView(generic.DetailView):
