@@ -1,0 +1,13 @@
+{
+    "id": "{{ guid }}",
+    "name": "{{ playlist.name }}",
+    "assets": [
+        {% for asset in view.assets %}
+        {
+            "name": "{{ asset.name }}",
+            "url": "{{ asset.url }}",
+            "duration": "{{ asset.duration }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
