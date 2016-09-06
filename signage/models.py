@@ -7,7 +7,7 @@ from adminsortable.models import SortableMixin, SortableForeignKey
 # Create your models here.
 
 class Playlist(SortableMixin):
-    title = models.CharField(max_length=140, default='Untitled Playlist')
+    name = models.CharField(max_length=140, default='Untitled Playlist', unique=True)
     # ordering field
     playlist_order = models.PositiveIntegerField(default=0, editable=False, db_index=True)
 
@@ -19,7 +19,7 @@ class Playlist(SortableMixin):
         return self.title
 
 class Asset(SortableMixin):
-    title = models.CharField(max_length=140, default='Untitled Asset')
+    name = models.CharField(max_length=140, default='Untitled Asset')
     playlist = SortableForeignKey(Playlist)
     url = models.URLField(max_length=512, verbose_name="URL")
     duration = models.PositiveIntegerField(default=10, validators=[MaxValueValidator(1800),MinValueValidator(5),], verbose_name="Duration (s)")

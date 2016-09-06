@@ -20,9 +20,9 @@ notebook:
 
 clean:
 	rm -f *.zip
-	rm -f $(BYTECODE)
-	rm -f $(PYTHONCODE)
+	find . -print | egrep \.pyc$$ | xargs rm 
 	rm -f $(DATABASE_PATH)*
+	rm -f db.sqlite3
 
 # Run with the embedded web server
 serve:
