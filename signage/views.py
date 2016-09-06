@@ -7,6 +7,9 @@ from .models import Playlist, Device
 
 # Create your views here.
 
+# TODO: handle device id
+# TODO: handle alerts
+
 class PlaylistView(generic.TemplateView):
     template_name = 'playlist.json'
 
