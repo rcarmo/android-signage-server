@@ -1,6 +1,6 @@
 {
-    "id": "{{ guid }}",
-    "name": "{{ playlist.name }}",
+    "uuid": "{{ view.uuid }}",
+    "name": "{{ view.name }}",
     "assets": [
         {% for asset in view.assets %}
         {

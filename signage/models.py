@@ -16,7 +16,7 @@ class Playlist(SortableMixin):
         verbose_name_plural = 'Playlists'
 
     def __unicode__(self):
-        return self.title
+        return self.name
 
 class Asset(SortableMixin):
     name = models.CharField(max_length=140, default='Untitled Asset')
@@ -32,7 +32,7 @@ class Asset(SortableMixin):
         ordering = ['asset_order']
 
     def __unicode__(self):
-        return self.title
+        return self.name
 
 class Device(models.Model):
     identifier = models.CharField(max_length=128)
