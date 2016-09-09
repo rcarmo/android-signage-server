@@ -1,1 +1,1 @@
-wsgi: backoffice.wsgi.application
+wsgi: backoffice.wsgi:application
