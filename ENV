@@ -1,0 +1,7 @@
+DEBUG=True
+PROFILER=False
+DATABASE_PATH=/home/piku/signage.db
+SITE_NAME=Signage Backoffice
+PYTHONIOENCODING=UTF_8:replace
+LC_ALL=en_US.UTF-8
+LANG=en_US.UTF-8

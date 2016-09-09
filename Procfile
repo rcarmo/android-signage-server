@@ -1,0 +1,1 @@
+wsgi: backoffice.wsgi.application
