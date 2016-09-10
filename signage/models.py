@@ -1,13 +1,14 @@
 from __future__ import unicode_literals
 
-from django.db.models import Model, BooleanField, DateTimeField, CharField, URLField, TextField, ForeignKey, PositiveIntegerField
+from django.db.models import Model, BooleanField, DateTimeField, CharField, URLField, TextField, ForeignKey, PositiveIntegerField, ManyToManyField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from adminsortable.models import SortableMixin, SortableForeignKey
+from datetime import datetime
 
 # Create your models here.
 
 class Playlist(SortableMixin):
-    name = CharField(max_length=140, default='Untitled Playlist', unique=True)
+    name = CharField(max_length=140, default='Untitled', unique=True)
     # ordering field
     playlist_order = PositiveIntegerField(default=0, editable=False, db_index=True)
 
@@ -17,6 +18,7 @@ class Playlist(SortableMixin):
 
     def __unicode__(self):
         return self.name
+
 
 class Asset(SortableMixin):
     name = CharField(max_length=140, default='Untitled Asset')
@@ -46,6 +48,19 @@ class Device(Model):
     active = BooleanField(default=False)
     playlist = ForeignKey(Playlist, blank=True, null=True)
     last_seen = DateTimeField(auto_now=True, editable=False, verbose_name='Last Seen')
+
+    def __unicode__(self):
+        return self.name
+
+
+class Alert(Playlist):
+    when = DateTimeField(default=datetime.now, verbose_name='Start At')
+    active = BooleanField(default=True)
+    devices = ManyToManyField(Device)
+    shown_on = ManyToManyField(Device, editable=False, related_name="shown_on")
+
+    class Meta:
+        verbose_name_plural = 'Alerts'
 
     def __unicode__(self):
         return self.name
