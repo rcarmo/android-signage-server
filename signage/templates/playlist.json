@@ -1,9 +1,9 @@
 {
-    "uuid": "{{ view.uuid }}",
-    "name": "{{ view.name }}",
-    "alerts": false,
+    "uuid": "{{ uuid }}",
+    "name": "{{ playlist.name }}",
+    "alerts": {{ alert|yesno:"true,false" }},
     "assets": [
-        {% for asset in view.assets %}
+        {% for asset in assets %}
         {
             "name": "{{ asset.name }}",
             "url": "{{ asset.url }}",

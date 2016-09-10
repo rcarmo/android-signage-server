@@ -1,4 +1,4 @@
 django>=1.10.1
 django-admin-sortable>=2.0.19
-dj-static
-pytz
+dj-static>=0.0.6
+pytz>=2016.6.1
