@@ -19,5 +19,5 @@ from signage import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/v1/playlists/(?P<device_id>(.+))/(?P<mac_address>([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))/(?P<ip_address>((2[0-5]|1[0-9]|[0-9])?[0-9]\.){3}((2[0-5]|1[0-9]|[0-9])?[0-9]))$', views.PlaylistView.as_view(), name="Get playlist"),
+    url(r'^api/v1/assetlist/(?P<device_id>(.+))/(?P<mac_address>([0-9A-F]{2}[:-]){5}([0-9A-F]{2}))/(?P<ip_address>((2[0-5]|1[0-9]|[0-9])?[0-9]\.){3}((2[0-5]|1[0-9]|[0-9])?[0-9]))$', views.PlaylistView.as_view(), name="Get playlist"),
 ]
