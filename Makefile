@@ -7,6 +7,7 @@ export DATABASE_PATH?=/tmp/signage.db
 export SITE_NAME?=Signage Backoffice
 export NEW_RELIC_APP_NAME?=$(SITE_NAME)
 export NEW_RELIC_LICENSE_KEY?=''
+export SERVER_NAME?=signage.192.168.1.94.xip.io
 export PYTHONIOENCODING=UTF_8:replace
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -40,15 +41,15 @@ superuser:
 debug-%: ; @echo $*=$($*)
 
 # Commands for deploying to a piku instance
-restart-production:
-	ssh piku@signage restart backoffice
+restart-%:
+	ssh piku@$* restart backoffice
 
-deploy-production:
-	git push production master
+deploy-%:
+	git push $* master
+	ssh -t piku@$* run $(SERVER_NAME) python manage.py migrate
+	ssh -t piku@$* run $(SERVER_NAME) python manage.py collectstatic -- --no-input
 
-reset-production:
-	ssh piku@signage destroy backoffice
+reset-%:
+	ssh piku@$* destroy backoffice
 
-redeploy: reset-production deploy-production restart-production
-
-deploy: deploy-production restart-production
+redeploy-%: reset-$* deploy-$* restart-$*
