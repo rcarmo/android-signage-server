@@ -32,8 +32,8 @@ class PlaylistView(TemplateView):
                      mac_address = kwargs['mac_address'],
                      ip_address = kwargs['ip_address'])
             device.save()
-            
         return device
+
 
     def get_context_data(self, **kwargs):
         context = super(PlaylistView, self).get_context_data(**kwargs)
@@ -46,9 +46,9 @@ class PlaylistView(TemplateView):
             alerts = list(Alert.objects.filter(
                 active=True,
                 when__lte=timezone.now(),
-                #devices__pk__exact=device.pk
+                devices__pk__exact=device.pk
             ).exclude(
-                #shown_on__pk__exact=device.pk
+                shown_on__pk__exact=device.pk
             ).order_by('when').distinct()[:1])
             print alerts
             if alerts:
@@ -59,12 +59,14 @@ class PlaylistView(TemplateView):
                     alert.active = False 
                 alert.save()
                 playlist = alert
+                context['alert'] = True
             elif device.playlist:
                 playlist = device.playlist
-            try:
-                playlist = Playlist.objects.get(name='Default')
-            except:
-                playlist = Playlist.objects.get(pk=1)
+            else:
+                try:
+                    playlist = Playlist.objects.get(name='Default')
+                except:
+                    playlist = Playlist.objects.get(pk=1)
         else:
             playlist = Playlist()
         context['playlist'] = playlist

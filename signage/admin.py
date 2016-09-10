@@ -41,15 +41,23 @@ class PlaylistAdmin(NonSortableParentAdmin):
 class AlertAdmin(NonSortableParentAdmin):
     fields = ('name','active','when','devices')
     inlines = [AssetInline]
-    list_display = ('name', 'active', 'asset_count', 'device_count', 'when')
+    list_display = ('name', 'active', 'asset_count', 'device_names', 'delivered_to', 'when')
+
+    def save_model(self, request, obj, form, change):
+        obj.shown_on.clear()
+        obj.save()
 
     def asset_count(self, obj):
         return obj.asset_set.count()
 
-    def device_count(self, obj):
+    def device_names(self, obj):
         return map(lambda x: x.name, obj.devices.all())
 
-    device_count.short_description = "Devices"
+    def delivered_to(self, obj):
+        return map(lambda x: x.name, obj.shown_on.all())
+
+
+    device_names.short_description = "Devices"
     asset_count.short_description = "Assets"
 
 site.register(Alert, AlertAdmin)
