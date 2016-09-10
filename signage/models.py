@@ -35,7 +35,9 @@ class Asset(SortableMixin):
         return self.name
 
 class Device(models.Model):
-    identifier = models.CharField(max_length=128)
-    name = models.CharField(max_length=128,default="Unnamed Device")
+    device_id = models.CharField(max_length=128, default='00deadbeef42', unique=True, editable=False)
+    mac_address = models.CharField(max_length=17, default='00:de:ad:be:ef:42', unique=True,editable=False)
+    ip_address = models.CharField(max_length=45, default='127.0.0.1', editable=False) # IPv6
+    name = models.CharField(max_length=128,default='Unnamed Device')
     active = models.BooleanField(default=False)
     playlist = models.ForeignKey(Playlist, blank=True, null=True)
