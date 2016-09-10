@@ -41,3 +41,6 @@ class Device(models.Model):
     name = models.CharField(max_length=128,default='Unnamed Device')
     active = models.BooleanField(default=False)
     playlist = models.ForeignKey(Playlist, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.name
