@@ -8,7 +8,8 @@
             "name": "{{ asset.name }}",
             "url": "{{ asset.url }}",
             "kind": "{{ asset.kind }}",
-            "duration": "{{ asset.duration }}"
+            "duration": "{{ asset.duration }}",
+            "active": {{ 'true' if asset.active else 'false' }}
         }{% if not forloop.last %},{% endif %}
         {% endfor %}
     ]
