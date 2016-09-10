@@ -35,7 +35,6 @@ class PlaylistFilter(SimpleListFilter):
         return sorted(map(lambda x: (0 if x == None else x, Playlist.objects.get(pk=x) if x else '(No playlist)'), playlists))
 
     def queryset(self, request, qs):
-        print self.value()
         if self.value() == None:
             return qs
         elif int(self.value()) == 0:

@@ -36,10 +36,8 @@ class PlaylistView(TemplateView):
         context = super(PlaylistView, self).get_context_data(**kwargs)
         device = self.update_device(kwargs)
         alert = False
-        print device
         if device.active:
             # do we have pending alerts for this device?
-            print "active"
             alerts = list(Alert.objects.filter(
                 active=True,
                 when__lte=timezone.now(),
@@ -47,7 +45,6 @@ class PlaylistView(TemplateView):
             ).exclude(
                 shown_on__pk__exact=device.pk
             ).order_by('when').distinct()[:1])
-            print alerts
             if alerts:
                 alert = alerts[0]
                 self.alert = True
