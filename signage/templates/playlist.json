@@ -9,7 +9,7 @@
             "url": "{{ asset.url }}",
             "kind": "{{ asset.kind }}",
             "duration": "{{ asset.duration }}",
-            "active": {{ 'true' if asset.active else 'false' }}
+            "active": {{ asset.active|yesno:"true,false" }}
         }{% if not forloop.last %},{% endif %}
         {% endfor %}
     ]
