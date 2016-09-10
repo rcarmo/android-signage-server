@@ -12,6 +12,10 @@ class AssetInline(SortableTabularInline):
 class DeviceAdmin(admin.ModelAdmin):
     readonly_fields=('device_id','ip_address','mac_address')
 
+    # These cannot be added, only modified or deleted
+    def has_add_permission(self, request):
+        return False
+
 class PlaylistAdmin(NonSortableParentAdmin):
     inlines = [AssetInline]
 
