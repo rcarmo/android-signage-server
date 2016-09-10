@@ -36,12 +36,14 @@ class PlaylistView(generic.TemplateView):
 
     def get_playlist(self):
         device = self.get_or_update_device()
-        if device.active and device.playlist:
-            return device.playlist
-        try:
-            return Playlist.objects.get(name='Default')
-        except:
-            return Playlist.objects.get(pk=1)
+        if device.active:
+            if device.playlist:
+                return device.playlist
+            try:
+                return Playlist.objects.get(name='Default')
+            except:
+                return Playlist.objects.get(pk=1)
+        return Playlist()
 
 
     def uuid(self):
