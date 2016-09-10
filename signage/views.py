@@ -49,7 +49,7 @@ class PlaylistView(generic.TemplateView):
     def uuid(self):
         acc = []
         for a in self.get_playlist().asset_set.order_by('asset_order'):
-            acc.append((a.url, a.duration))
+            acc.append((a.url, a.duration, a.active, a.kind))
         return uuid5(NAMESPACE_URL, str(acc))
 
 
