@@ -15,7 +15,7 @@ class PlaylistView(TemplateView):
     template_name = 'playlist.json'
     playlist = None
 
-    def get_or_update_device(self, kwargs):
+    def update_device(self, kwargs):
         try:
             device = Device.objects.get(device_id=kwargs['device_id'])
             dirty = False
@@ -24,20 +24,17 @@ class PlaylistView(TemplateView):
                 dirty = True
             if device.mac_address != kwargs['mac_address']:
                 device.mac_address = kwargs['mac_address']
-                dirty = True
-            if dirty:
-                device.save()
         except:
             device = Device(device_id = kwargs['device_id'],
                      mac_address = kwargs['mac_address'],
                      ip_address = kwargs['ip_address'])
-            device.save()
+        device.save()
         return device
 
 
     def get_context_data(self, **kwargs):
         context = super(PlaylistView, self).get_context_data(**kwargs)
-        device = self.get_or_update_device(kwargs)
+        device = self.update_device(kwargs)
         alert = False
         print device
         if device.active:
