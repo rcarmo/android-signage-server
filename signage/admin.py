@@ -12,8 +12,8 @@ class AssetInline(SortableTabularInline):
     extra = 1
 
 class DeviceAdmin(admin.ModelAdmin):
-    readonly_fields=('device_id','ip_address','mac_address')
-    list_display = ('name', 'active', 'related_playlist', 'device_id', 'mac_address', 'ip_address')
+    readonly_fields=('device_id','ip_address','mac_address','last_seen')
+    list_display = ('name', 'active', 'related_playlist', 'device_id', 'mac_address', 'ip_address', 'last_seen')
 
     # These cannot be added, only modified or deleted
     def has_add_permission(self, request):
