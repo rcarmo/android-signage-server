@@ -44,8 +44,8 @@ class PlaylistFilter(SimpleListFilter):
 
 
 class SeenFilter(SimpleListFilter):
-    title = 'Seen'
-    parameter_name = 'seen'
+    title = 'Last Seen'
+    parameter_name = 'last_seen'
 
     def lookups(self, request, obj):
         return [
