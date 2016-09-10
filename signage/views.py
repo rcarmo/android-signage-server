@@ -36,7 +36,7 @@ class PlaylistView(generic.TemplateView):
 
     def get_playlist(self):
         device = self.get_or_update_device()
-        if device.playlist:
+        if device.active and device.playlist:
             return device.playlist
         try:
             return Playlist.objects.get(name='Default')
