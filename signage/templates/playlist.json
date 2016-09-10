@@ -7,6 +7,7 @@
         {
             "name": "{{ asset.name }}",
             "url": "{{ asset.url }}",
+            "kind": "{{ asset.kind }}",
             "duration": "{{ asset.duration }}"
         }{% if not forloop.last %},{% endif %}
         {% endfor %}

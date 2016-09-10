@@ -21,9 +21,13 @@ class Playlist(SortableMixin):
 class Asset(SortableMixin):
     name = CharField(max_length=140, default='Untitled Asset')
     playlist = SortableForeignKey(Playlist)
-    url = URLField(max_length=512, verbose_name="URL")
-    duration = PositiveIntegerField(default=10, validators=[MaxValueValidator(1800),MinValueValidator(5),], verbose_name="Duration (s)")
+    url = URLField(max_length=512, verbose_name='URL')
+    duration = PositiveIntegerField(default=10, validators=[MaxValueValidator(1800),MinValueValidator(5),], verbose_name='Duration (s)')
     active = BooleanField(default=True)
+    kind = Charfield(max_length=8, default='web', choices=(
+        ('web', 'Web Page'),
+        ('video', 'Video (MP4)'),
+    ), verbose_name='Asset Type') 
 
     # ordering field
     asset_order = PositiveIntegerField(default=0, editable=False, db_index=True)
