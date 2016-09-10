@@ -11,6 +11,7 @@ export SERVER_NAME?=signage.192.168.1.94.xip.io
 export PYTHONIOENCODING=UTF_8:replace
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export TIME_ZONE?=Europe/Lisbon
 export CURRENT_GIT_BRANCH?=`git symbolic-ref --short HEAD`
 
 deps:
