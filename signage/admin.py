@@ -1,4 +1,4 @@
-from django.contrib.admin import site, ModelAdmin
+from django.contrib.admin import site, ModelAdmin, SimpleListFilter
 
 from django import forms, utils
 from django.core import urlresolvers
@@ -10,6 +10,7 @@ from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline, S
 class AssetInline(SortableTabularInline):
     model = Asset
     extra = 1
+
 
 class DeviceAdmin(ModelAdmin):
     readonly_fields=('device_id','ip_address','mac_address','last_seen')
@@ -28,12 +29,20 @@ class DeviceAdmin(ModelAdmin):
     related_playlist.short_description = "Playlist"
     related_playlist.allow_tags = True # TODO: check this for injection exploits
 
+
 class PlaylistAdmin(NonSortableParentAdmin):
     inlines = [AssetInline]
-    list_display = ('name', 'asset_count')
+    list_display = ('name', 'asset_count', 'total_duration')
+
+    def get_queryset(self, request):    
+        qs = super(PlaylistAdmin, self).get_queryset(request)
+        return qs.filter(alert__isnull=True)
 
     def asset_count(self, obj):
         return obj.asset_set.count()
+
+    def total_duration(self, obj):
+        return reduce(lambda x, y: x + y.duration, obj.asset_set.all(), 0)
 
     asset_count.short_description = "Assets"
 
@@ -41,7 +50,7 @@ class PlaylistAdmin(NonSortableParentAdmin):
 class AlertAdmin(NonSortableParentAdmin):
     fields = ('name','active','when','devices')
     inlines = [AssetInline]
-    list_display = ('name', 'active', 'asset_count', 'device_names', 'delivered_to', 'when')
+    list_display = ('name', 'active', 'asset_count', 'total_duration', 'device_names', 'delivered_to', 'when')
 
     def save_model(self, request, obj, form, change):
         obj.shown_on.clear()
@@ -49,6 +58,9 @@ class AlertAdmin(NonSortableParentAdmin):
 
     def asset_count(self, obj):
         return obj.asset_set.count()
+
+    def total_duration(self, obj):
+        return reduce(lambda x, y: x + y.duration, obj.asset_set.all(), 0)
 
     def device_names(self, obj):
         return map(lambda x: x.name, obj.devices.all())
