@@ -6,4 +6,4 @@ def activate_wal(sender, connection, **kwargs):
         cursor = connection.cursor()
         cursor.execute('PRAGMA journal_mode=WAL;')
 
-connection_created.connect(activate_foreign_keys)
+connection_created.connect(activate_wal)
