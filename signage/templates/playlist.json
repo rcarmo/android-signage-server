@@ -1,6 +1,7 @@
 {
     "uuid": "{{ view.uuid }}",
     "name": "{{ view.name }}",
+    "alerts": [],
     "assets": [
         {% for asset in view.assets %}
         {
