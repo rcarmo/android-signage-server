@@ -20,6 +20,7 @@ class AssetForm(ModelForm):
 
 class AssetInline(SortableStackedInline):
     fields = (('name', 'kind', 'duration','active'),('url', 'parameters'))
+    search_fields = ('name', 'url', 'parameters')
     model = Asset
     form = AssetForm
     extra = 0
@@ -83,6 +84,7 @@ class DeviceAdmin(ModelAdmin):
     readonly_fields=('device_id','ip_address','mac_address','last_seen')
     list_display = ('name', 'active', 'related_playlist', 'device_id', 'mac_address', 'ip_address', 'last_seen')
     list_filter = (ActiveFilter,PlaylistFilter,SeenFilter)
+    search_fields = ('name', 'ip_address', 'mac_address', 'device_id')
 
     # These cannot be added, only modified or deleted
     def has_add_permission(self, request):
@@ -101,6 +103,7 @@ class DeviceAdmin(ModelAdmin):
 class PlaylistAdmin(NonSortableParentAdmin):
     inlines = [AssetInline]
     list_display = ('name', 'active_assets', 'asset_count',  'active_duration', 'total_duration')
+    search_fields = ('name',)
 
     def get_queryset(self, request):    
         qs = super(PlaylistAdmin, self).get_queryset(request)
@@ -155,6 +158,7 @@ class AlertAdmin(NonSortableParentAdmin):
     fields = ('name','active','when','devices')
     inlines = [AssetInline]
     list_display = ('name', 'active', 'asset_count', 'total_duration', 'device_names', 'delivered_to', 'when')
+    search_fields = ('name',)
     list_filter = (ActiveFilter,DeviceFilter,DeliveryFilter)
 
     def save_model(self, request, obj, form, change):
