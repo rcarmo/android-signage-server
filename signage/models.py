@@ -55,7 +55,7 @@ class Device(Model):
 
 
 class Alert(Playlist):
-    when = DateTimeField(default=datetime.now, verbose_name='Start At')
+    when = DateTimeField(verbose_name='Start At')
     active = BooleanField(default=True)
     devices = ManyToManyField(Device)
     shown_on = ManyToManyField(Device, editable=False, related_name="shown_on")
