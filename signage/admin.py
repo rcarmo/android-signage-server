@@ -188,7 +188,9 @@ class AlertAdmin(NonSortableParentAdmin):
 
     device_names.short_description = "Devices"
     asset_count.short_description = "Assets"
-
+    
+    class Media:
+        js = ['optionalchoice.js']
 
 class PredefinedAssetAdmin(ModelAdmin):
     list_display = ('name', 'url')
