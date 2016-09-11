@@ -65,3 +65,7 @@ class Alert(Playlist):
 
     def __unicode__(self):
         return self.name
+
+class Template(Model):
+    name = CharField(max_length=140, default='Untitled Template')
+    url = CharField(max_length=512, verbose_name='URL',validators=[URLValidator()])

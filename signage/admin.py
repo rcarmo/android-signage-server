@@ -3,7 +3,8 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from django.forms import CharField, TextInput, ModelForm
 from django.core import urlresolvers
-from .models import Playlist, Asset, Device, Alert
+from .models import Playlist, Asset, Device, Alert, Template
+from .fields import OptionalChoiceField
 
 from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline, SortableTabularInline
 
@@ -16,6 +17,11 @@ class AssetForm(ModelForm):
         self.fields['active'].widget.attrs['style']="margin-right: 4px !important;"
         self.fields['kind'].label=''
         self.fields['name'].label=''
+        self.fields['url'].label=''
+        choices = [('','Input URL:')]
+        for t in Template.objects.all():
+            choices.append((t.url, t.name))
+        self.fields['url'] = OptionalChoiceField(label='',choices=choices)
 
 
 class AssetInline(SortableStackedInline):
@@ -97,7 +103,7 @@ class DeviceAdmin(ModelAdmin):
         return '(No playlist)'
 
     related_playlist.short_description = "Playlist"
-    related_playlist.allow_tags = True # TODO: check this for injection exploits
+    related_playlist.allow_tags = True
 
 
 class PlaylistAdmin(NonSortableParentAdmin):
@@ -182,6 +188,13 @@ class AlertAdmin(NonSortableParentAdmin):
     asset_count.short_description = "Assets"
 
 
+class TemplateAdmin(ModelAdmin):
+    list_display = ('name', 'url')
+    search_fields = ('name', 'url')
+
+
 site.register(Alert, AlertAdmin)
 site.register(Playlist, PlaylistAdmin)
 site.register(Device, DeviceAdmin)
+site.register(Template, TemplateAdmin)
+
