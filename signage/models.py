@@ -73,3 +73,6 @@ class PredefinedAsset(Model):
     class Meta:
         verbose_name = 'Predefined Asset'
         verbose_name_plural = 'Predefined Assets'
+
+    def __unicode__(self):
+        return self.name
