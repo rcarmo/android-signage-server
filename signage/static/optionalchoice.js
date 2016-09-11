@@ -1,7 +1,6 @@
 (function ($) {
     $(document).ready(function () {
         $.each($('select[name*=url]'), function (i, e) {
-            console.log(e);
             e.onchange = function () {
                 var prefix = this.name.split('-'),
                     suffix = prefix[2].split('_'),
@@ -11,9 +10,14 @@
                         $(target).attr('_value',$(target).val());
                     }
                     $(target).val('');
+                    $(target).prop('disabled', true);
                 } else {
                     $(target).val($(target).attr('_value'));
+                    $(target).prop('disabled', false);
                 }
+            }
+            if($(e).val()) {
+                $(e).trigger("change");
             }
         })
     })
