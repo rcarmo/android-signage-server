@@ -27,7 +27,7 @@ class Asset(SortableMixin):
         ('video', 'Video (MP4)'),
     ), verbose_name='Asset Type') 
     url = CharField(max_length=512, verbose_name='URL',validators=[URLValidator()])
-    parameters = CharField(max_length=512)
+    parameters = CharField(max_length=512,blank=True,null=True)
     duration = PositiveIntegerField(default=30, validators=[MaxValueValidator(1800),MinValueValidator(5),], verbose_name='Duration (s)')
     active = BooleanField(default=True)
     playlist = SortableForeignKey(Playlist)

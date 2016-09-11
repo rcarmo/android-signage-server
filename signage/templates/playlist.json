@@ -6,7 +6,11 @@
         {% for asset in assets %}
         {
             "name": "{{ asset.name }}",
+            {%if not asset.parameters %}
             "url": "{{ asset.url }}",
+            {% else %}
+            "url": "{{ asset.url }}?#{{ asset.parameters }}",
+            {% endif %}
             "kind": "{{ asset.kind }}",
             "duration": "{{ asset.duration }}",
             "active": {{ asset.active|yesno:"true,false" }}
