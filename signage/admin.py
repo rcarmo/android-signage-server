@@ -86,7 +86,7 @@ class DeviceAdmin(ModelAdmin):
 
 class PlaylistAdmin(NonSortableParentAdmin):
     inlines = [AssetInline]
-    list_display = ('name', 'asset_count', 'total_duration')
+    list_display = ('name', 'active_assets', 'asset_count',  'active_duration', 'total_duration')
 
     def get_queryset(self, request):    
         qs = super(PlaylistAdmin, self).get_queryset(request)
@@ -95,10 +95,16 @@ class PlaylistAdmin(NonSortableParentAdmin):
     def asset_count(self, obj):
         return obj.asset_set.count()
 
+    def active_assets(self, obj):
+        return reduce(lambda x, y: x + 1 if y.active else x, obj.asset_set.all(), 0)
+
     def total_duration(self, obj):
         return reduce(lambda x, y: x + y.duration, obj.asset_set.all(), 0)
 
-    asset_count.short_description = "Assets"
+    def active_duration(self, obj):
+        return reduce(lambda x, y: x + y.duration if y.active else x, obj.asset_set.all(), 0)
+
+    asset_count.short_description = "Total Assets"
 
 
 class DeviceFilter(SimpleListFilter):
