@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db.models import Model, BooleanField, DateTimeField, CharField, URLField, TextField, ForeignKey, PositiveIntegerField, ManyToManyField
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, URLValidator
 from adminsortable.models import SortableMixin, SortableForeignKey
 from datetime import datetime
 
@@ -26,7 +26,8 @@ class Asset(SortableMixin):
         ('web', 'Web Page'),
         ('video', 'Video (MP4)'),
     ), verbose_name='Asset Type') 
-    url = URLField(max_length=512, verbose_name='URL')
+    url = CharField(max_length=512, verbose_name='URL',validators=[URLValidator()])
+    parameters = CharField(max_length=512)
     duration = PositiveIntegerField(default=30, validators=[MaxValueValidator(1800),MinValueValidator(5),], verbose_name='Duration (s)')
     active = BooleanField(default=True)
     playlist = SortableForeignKey(Playlist)

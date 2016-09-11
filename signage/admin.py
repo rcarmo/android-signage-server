@@ -1,16 +1,30 @@
 from django.contrib.admin import site, ModelAdmin, SimpleListFilter
 from django.utils import timezone
 from datetime import datetime, timedelta
-from django import forms, utils
+from django.forms import CharField, TextInput, ModelForm
 from django.core import urlresolvers
 from .models import Playlist, Asset, Device, Alert
 
 from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline, SortableTabularInline
 
 
-class AssetInline(SortableTabularInline):
+class AssetForm(ModelForm):
+    def __init__(self,  *args, **kwargs):
+        super(AssetForm,self).__init__(*args, **kwargs)
+        self.auto_id=False
+        self.fields['active'].widget.attrs['title']="Active"
+        self.fields['active'].widget.attrs['style']="margin-right: 4px !important;"
+        self.fields['kind'].label=''
+        self.fields['name'].label=''
+
+
+class AssetInline(SortableStackedInline):
+    fields = (('name', 'kind', 'duration','active'),('url', 'parameters'))
     model = Asset
-    extra = 1
+    form = AssetForm
+    extra = 0
+    verbose_name = 'Item'
+    verbose_name_plural = 'Items'
 
 
 class ActiveFilter(SimpleListFilter):
@@ -135,7 +149,6 @@ class DeliveryFilter(SimpleListFilter):
         return qs.filter(devices__pk__exact=self.value())
 
 
-
 class AlertAdmin(NonSortableParentAdmin):
     fields = ('name','active','when','devices')
     inlines = [AssetInline]
@@ -158,9 +171,9 @@ class AlertAdmin(NonSortableParentAdmin):
     def delivered_to(self, obj):
         return map(lambda x: x.name, obj.shown_on.all())
 
-
     device_names.short_description = "Devices"
     asset_count.short_description = "Assets"
+
 
 site.register(Alert, AlertAdmin)
 site.register(Playlist, PlaylistAdmin)
