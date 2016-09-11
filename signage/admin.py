@@ -129,6 +129,8 @@ class PlaylistAdmin(NonSortableParentAdmin):
 
     asset_count.short_description = "Total Assets"
 
+    class Media:
+        js = ['optionalchoice.js']
 
 class DeviceFilter(SimpleListFilter):
     title = 'Device'
