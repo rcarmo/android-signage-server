@@ -3,7 +3,7 @@ from django.utils import timezone
 from datetime import datetime, timedelta
 from django.forms import CharField, TextInput, ModelForm
 from django.core import urlresolvers
-from .models import Playlist, Asset, Device, Alert, Template
+from .models import Playlist, Asset, Device, Alert, PredefinedAsset
 from .fields import OptionalChoiceField
 
 from adminsortable.admin import NonSortableParentAdmin, SortableStackedInline, SortableTabularInline
@@ -19,7 +19,7 @@ class AssetForm(ModelForm):
         self.fields['name'].label=''
         self.fields['url'].label=''
         choices = [('','Input URL:')]
-        for t in Template.objects.all():
+        for t in PredefinedAsset.objects.all():
             choices.append((t.url, t.name))
         self.fields['url'] = OptionalChoiceField(label='',choices=choices)
 
@@ -188,7 +188,7 @@ class AlertAdmin(NonSortableParentAdmin):
     asset_count.short_description = "Assets"
 
 
-class TemplateAdmin(ModelAdmin):
+class PredefinedAssetAdmin(ModelAdmin):
     list_display = ('name', 'url')
     search_fields = ('name', 'url')
 
@@ -196,5 +196,5 @@ class TemplateAdmin(ModelAdmin):
 site.register(Alert, AlertAdmin)
 site.register(Playlist, PlaylistAdmin)
 site.register(Device, DeviceAdmin)
-site.register(Template, TemplateAdmin)
+site.register(PredefinedAsset, PredefinedAssetAdmin)
 
