@@ -127,7 +127,8 @@ class DeviceFilter(SimpleListFilter):
 
     def lookups(self, request, obj):
         devices = set(list(Alert.objects.values_list("devices", flat=True)))
-        return sorted(map(lambda x: (x, Device.objects.get(pk=x)), devices))
+        if len(devices):
+            return sorted(map(lambda x: (x, Device.objects.get(pk=x) if x else 'None'), devices))
 
     def queryset(self, request, qs):
         if not self.value():
@@ -141,7 +142,8 @@ class DeliveryFilter(SimpleListFilter):
 
     def lookups(self, request, obj):
         devices = set(list(Alert.objects.values_list("shown_on", flat=True)))
-        return sorted(map(lambda x: (x, Device.objects.get(pk=x)), devices))
+        if len(devices):
+            return sorted(map(lambda x: (x, Device.objects.get(pk=x) if x else 'None'), devices))
 
     def queryset(self, request, qs):
         if not self.value():
@@ -156,6 +158,7 @@ class AlertAdmin(NonSortableParentAdmin):
     list_filter = (ActiveFilter,DeviceFilter,DeliveryFilter)
 
     def save_model(self, request, obj, form, change):
+        super(AlertAdmin,self).save_model(request, obj, form, change)
         obj.shown_on.clear()
         obj.save()
 
