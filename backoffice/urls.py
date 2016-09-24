@@ -17,6 +17,9 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import RedirectView
 from signage import views
+from os import environ
+
+admin.site.site_header = environ.get('SITE_NAME', 'Signage Administration')
 
 urlpatterns = [
     url(r'^$', RedirectView.as_view(url='https://pixels.camp')),
