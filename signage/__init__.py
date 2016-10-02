@@ -5,6 +5,6 @@ def activate_wal(sender, connection, **kwargs):
     if 'sqlite' in connection.vendor:
         cursor = connection.cursor()
         cursor.execute('PRAGMA journal_mode=WAL;')
-        print "enabled WAL mode for SQLite"
+        cursor.execute('PRAGMA synchronous=OFF;')
 
 connection_created.connect(activate_wal)
