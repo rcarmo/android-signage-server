@@ -78,6 +78,9 @@ WSGI_APPLICATION = 'backoffice.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
+        'OPTIONS' = {
+            'timeout': 20,
+        },
         'NAME': os.environ.get('DATABASE_PATH',os.path.join(BASE_DIR, 'db.sqlite3')),
     }
 }
